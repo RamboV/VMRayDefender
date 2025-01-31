@@ -21,19 +21,19 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 - Open [https://portal.azure.com/](https://portal.azure.com) and `Microsoft Entra ID` service
 
-![01](Images/01.PNG)
+![01](Images/01.png)
 
 - Click `Add->App registration`
 
-![02](Images/02.PNG)
+![02](Images/02.png)
 
 - Enter the name of application and select supported account types and click on `Register`
 
-![03](Images/03.PNG)
+![03](Images/03.png)
 
 - In the application overview you can see `Application Name`, `Application ID` and `Tenant ID`
 
-![04](Images/04.PNG)
+![04](Images/04.png)
 
 - After creating the application, we need to set API permissions for connector. For this purpose,
   - Click `Manage->API permissions` tab
@@ -41,7 +41,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
   - Select `APIs my organization uses`
   - Search `WindowsDefenderATP` and click the search result
 
-![05](Images/05.PNG)
+![05](Images/05.png)
 
 - On the next page select `Application Permissions` and check permissions according to the table below. And click `Add permissions` button below.
 
@@ -56,11 +56,11 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 | Ti                   | Ti.ReadWrite.All | Needed to retrieve and submit indicators (general) |
 | Library              | Library.Manage | Needed to upload custom ps1 script for retrieving av related evidences |
 
-![06](Images/06.PNG)
+![06](Images/06.png)
 
 - After setting only the necessary permisions, click the `Grant admin consent for ...` button to approve permissions.
 
-![07](Images/07.PNG)
+![07](Images/07.png)
 
 - We need to secrets to access programmatically. For creating secrets
   - Click `Manage->Certificates & secrets` tab
@@ -68,11 +68,11 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
   - Click `New client secret` button
   - Enter description and set expiration date for secret
 
-![08](Images/08.PNG)
+![08](Images/08.png)
 
 - Use Secret `Value` and `Secret ID` to configure connector.
 
-![09](Images/09.PNG)
+![09](Images/09.png)
 
 **Reference**
 - [https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/api-hello-world](https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/api-hello-world)
@@ -85,7 +85,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Open `Advanced features`
 - Activate `Automated Investigation`, `Live Response` and `Live Response for Servers` options
 
-![Activating Live Response](Images/10.PNG)
+![Activating Live Response](Images/10.png)
 
 
 ## VMRay Configurations
