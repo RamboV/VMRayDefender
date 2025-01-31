@@ -4,7 +4,7 @@
 ## Configuration Screen 
 ## Post Deployment Steps for Azure Function App
 ### Create SAAS Token
-### Create Environemnt Variable in Azure Function App
+### Create Environment Variable in Azure Function App
 ## Deploy Logic App
 ### Post Deployment Steps for Logic App
 ## Microsoft Defender Settings
