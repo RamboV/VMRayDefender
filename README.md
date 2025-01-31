@@ -85,7 +85,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Open `Advanced features`
 - Activate `Automated Investigation`, `Live Response` and `Live Response for Servers` options
 
-![Activating Live Response](Images/10.png)
+![Activating Live Response](Images/10.PNG)
 
 
 ## VMRay Configurations
