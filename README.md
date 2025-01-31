@@ -87,7 +87,8 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![Activating Live Response](Images/10.PNG)
 
-
+## Microsoft Azure Function App Installation And Configuration 
+## Microsoft Azure Logic App Installation And Configuration
 ## VMRay Configurations
 
 - In VMRay Console, you must create two API Keys: Endpoint API key and Connector API key
