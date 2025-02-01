@@ -19,7 +19,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ### Creating Application for API Access
 
-- Open [https://portal.azure.com/](https://portal.azure.com) and `Microsoft Entra ID` service
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Microsoft Entra ID` service
 
 ![01](Images/01.png)
 
@@ -87,7 +87,20 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![Activating Live Response](Images/10.PNG)
 
-## Microsoft Azure Function App Installation And Configuration 
+## Microsoft Azure Function App Installation And Configuration
+### Deployment of Function App
+
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Deploy a custom template` service
+
+![11](Images/11.png)
+
+- On the next page select `Build your own template in the editor`
+  
+![11](Images/11.png)
+
+- Copy `azuredeploy.json` contents from the `FunctionApp` folder and save it.
+
+![13](Images/13.png)  
 ## Microsoft Azure Logic App Installation And Configuration
 ## VMRay Configurations
 
