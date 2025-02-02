@@ -112,7 +112,19 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 | Azure Client ID   | Enter the Azure Client ID created in the App Registration Step |
 | Azure Client Secret | Enter the Azure Client Secret created in the App Registration Step |
 |Azure Tenant ID | Enter the Azure Tenant ID of the App Registration |
-
+| Azure Storage Account | Name of the Storage Account |
+| Azure Strorage Container Name | Name of the Storage Account Container Name |
+| Azure Storage Connection String| Please leave this empty |
+| Azure Storage Saas Token| Please leave this empty |
+| App Insights Workspace Resource ID | Go to `Log Analytics workspace` -> `Settings` -> `Properties`, Copy `Resource ID` and paste here |
+| Vmray Base URL | VMRay Base URL |
+| Vmray API Key | VMRay API Key |
+| Vmray Resubmit | If true, the files will be resubmitted to VMRay analyser, even if the file hash was found in VMRay |
+| Vmray Sample Verdict | ***** |
+| Create Indicators In Defender | If true, Indicators will be created in Microsoft Defender |
+| Defender Indicator Action | Additional metadata when creating an indicator in Microsoft Defender |
+| Defender Indicator Alert | Additional metadata when creating an indicator in Microsoft Defender |
+	
 
 ## Microsoft Azure Logic App Installation And Configuration
 ## VMRay Configurations
