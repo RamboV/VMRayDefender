@@ -107,6 +107,12 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 |:---------------------|:--------------------
 | Subscription		| Select the appropriate Azure Subscription    | 
 | Resource Group 	| Select the appropriate Resource Group |
+| Region			| Based on Resource Group this will be uto populated |
+| Function Name		| Please provide a function name if needed to change the default value|
+| Azure Client ID   | Enter the Azure Client ID created in the App Registration Step |
+| Azure Client Secret | Enter the Azure Client Secret created in the App Registration Step |
+|Azure Tenant ID | Enter the Azure Tenant ID of the App Registration |
+
 
 ## Microsoft Azure Logic App Installation And Configuration
 ## VMRay Configurations
