@@ -100,7 +100,14 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 - Copy `azuredeploy.json` contents from the `FunctionApp` folder and save it.
 
-![13](Images/13.png)  
+![13](Images/13.png)
+- On the next page, please provide the values accordingly.
+
+|       Fields       |   Description |
+|:---------------------|:--------------------
+| Subscription		| Select the appropriate Azure Subscription    | 
+| Resource Group 	| Select the appropriate Resource Group |
+
 ## Microsoft Azure Logic App Installation And Configuration
 ## VMRay Configurations
 
