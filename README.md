@@ -125,6 +125,18 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 | Defender Indicator Action | Additional metadata when creating an indicator in Microsoft Defender |
 | Defender Indicator Alert | Additional metadata when creating an indicator in Microsoft Defender |
 	
+- Once you provide the above values, please click on `Review + create` button.
+
+### Deployment of Function App Zip package
+- Download the zip package from the `FunctionApp` folder.
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Storage accounts` service
+
+![14](Images/14.png)
+- Open the storage account, the name starts with `vmraystorage`.
+- Go to `Storage Browser` -> `Blob Containers`, click on container, the nam starts with `vmraycontainer`.
+- Upload the downloaded zip package to the container 
+
+![15](Images/15.png)
 
 ## Microsoft Azure Logic App Installation And Configuration
 ## VMRay Configurations
