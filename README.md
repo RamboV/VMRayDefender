@@ -112,8 +112,6 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 | Azure Client ID   | Enter the Azure Client ID created in the App Registration Step |
 | Azure Client Secret | Enter the Azure Client Secret created in the App Registration Step |
 |Azure Tenant ID | Enter the Azure Tenant ID of the App Registration |
-| Azure Storage Account | Name of the Storage Account |
-| Azure Strorage Container Name | Name of the Storage Account Container Name |
 | Azure Storage Connection String| Please leave this empty |
 | Azure Storage Saas Token| Please leave this empty |
 | App Insights Workspace Resource ID | Go to `Log Analytics workspace` -> `Settings` -> `Properties`, Copy `Resource ID` and paste here |
@@ -137,6 +135,20 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Upload the downloaded zip package to the container 
 
 ![15](Images/15.png)
+- Go to `Security + networking` -> `Access keys`, Copy `Connection string` and save it temporarily for next steps.
+
+![16](Images/16.png)
+- Go to `Security + networking` -> `Shared access signature`, check all the options under `Allowed resource types`, provide `End`(expiration time, preferred 06 months), click on `Generate SAS and connection string`
+
+![17](Images/17.png)
+- Copy `SAS token` and save it temporarily for next steps.
+
+![18](Images/18.png)
+
+### Configuration of Function App
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Function App` service
+![19](Images/19.png)
+
 
 ## Microsoft Azure Logic App Installation And Configuration
 ## VMRay Configurations
