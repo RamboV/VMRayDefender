@@ -10,28 +10,28 @@ It accelerates the triage of alerts by adding comments to the alert in MS Defend
 It also retrieves IOC values from VMRay and submits them into Microsoft Defender for Endpoint.
 
 ## Requirements
-- Microsoft Defender for Endpoint
-- VMRay Analyzer, VMRay FinalVerdict, VMRay TotalInsight
-- Microsoft Azure
+- Microsoft Defender for Endpoint.
+- VMRay Analyzer, VMRay FinalVerdict, VMRay TotalInsight.
+- Microsoft Azure.
 
 
 ## Microsoft Defender for Endpoint Configurations
 
 ### Creating Application for API Access
 
-- Open [https://portal.azure.com/](https://portal.azure.com) and search `Microsoft Entra ID` service
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Microsoft Entra ID` service.
 
 ![01](Images/01.png)
 
-- Click `Add->App registration`
+- Click `Add->App registration`.
 
 ![02](Images/02.png)
 
-- Enter the name of application and select supported account types and click on `Register`
+- Enter the name of application and select supported account types and click on `Register`.
 
 ![03](Images/03.png)
 
-- In the application overview you can see `Application Name`, `Application ID` and `Tenant ID`
+- In the application overview you can see `Application Name`, `Application ID` and `Tenant ID`.
 
 ![04](Images/04.png)
 
@@ -81,26 +81,28 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 ### Activating Live Response and Automated Investigation
 
 - Open [https://security.microsoft.com](https://security.microsoft.com)
-- Open `Settings` page and `Endpoint` tab
-- Open `Advanced features`
-- Activate `Automated Investigation`, `Live Response` and `Live Response for Servers` options
+- Open `Settings` page and `Endpoint` tab.
+- Open `Advanced features`.
+- Activate `Automated Investigation`, `Live Response` and `Live Response for Servers` options.
 
 ![Activating Live Response](Images/10.PNG)
 
 ## Microsoft Azure Function App Installation And Configuration
+
 ### Deployment of Function App
 
-- Open [https://portal.azure.com/](https://portal.azure.com) and search `Deploy a custom template` service
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Deploy a custom template` service.
 
 ![11](Images/11.png)
 
-- On the next page select `Build your own template in the editor`
+- On the next page select `Build your own template in the editor.
   
 ![11](Images/11.png)
 
 - Copy `azuredeploy.json` contents from the `FunctionApp` folder and save it.
 
 ![13](Images/13.png)
+
 - On the next page, please provide the values accordingly.
 
 |       Fields       |   Description |
@@ -126,31 +128,69 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Once you provide the above values, please click on `Review + create` button.
 
 ### Deployment of Function App Zip package
+
 - Download the zip package from the `FunctionApp` folder.
-- Open [https://portal.azure.com/](https://portal.azure.com) and search `Storage accounts` service
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Storage accounts` service.
 
 ![14](Images/14.png)
+
 - Open the storage account, the name starts with `vmraystorage`.
 - Go to `Storage Browser` -> `Blob Containers`, click on container, the nam starts with `vmraycontainer`.
-- Upload the downloaded zip package to the container 
+- Upload the downloaded zip package to the container. 
 
 ![15](Images/15.png)
+
 - Go to `Security + networking` -> `Access keys`, Copy `Connection string` and save it temporarily for next steps.
 
 ![16](Images/16.png)
-- Go to `Security + networking` -> `Shared access signature`, check all the options under `Allowed resource types`, provide `End`(expiration time, preferred 06 months), click on `Generate SAS and connection string`
+
+- Go to `Security + networking` -> `Shared access signature`, check all the options under `Allowed resource types`, provide `End`(expiration time, preferred 06 months), click on `Generate SAS and connection string`.
 
 ![17](Images/17.png)
+
 - Copy `SAS token` and save it temporarily for next steps.
 
 ![18](Images/18.png)
 
 ### Configuration of Function App
-- Open [https://portal.azure.com/](https://portal.azure.com) and search `Function App` service
+
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Function App` service.
+
 ![19](Images/19.png)
 
+- Open the VMRay FunctionApp name starts with `vmraydefender`.
+- Go to `Environment variables`, double-click `AzureStorageConnectionString` and provide the connection string value copied in the previous step and click on `save`.
+- Go to `Environment variables`, double-click `AzureStorageSaasToken` and provide the Saas token value copied in the previous step and click on `save`.
+- Click on `Apply` -> `Confirm` buttons.
+
+![20](Images/20.png)
+
+- Go to `Overview` -> click on `Restart`.
+
+![21](Images/21.png)
 
 ## Microsoft Azure Logic App Installation And Configuration
+
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Deploy a custom template` service.
+
+![11](Images/11.png)
+
+- On the next page select `Build your own template in the editor.
+  
+![11](Images/11.png)
+
+- Copy `azuredeploy1.json` contents from the `LogicApp` folder and save it.
+
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Deploy a custom template` service.
+
+![11](Images/11.png)
+
+- On the next page select `Build your own template in the editor.
+  
+![11](Images/11.png)
+
+- Copy `azuredeploy2.json` contents from the `LogicApp` folder and save it.
+
 ## VMRay Configurations
 
 - In VMRay Console, you must create two API Keys: Endpoint API key and Connector API key
