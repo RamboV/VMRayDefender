@@ -19,7 +19,7 @@
     },
     "parameters": {
         "PlaybookName": {
-            "defaultValue": "Submit-Defender-Alerts-To-VMRay",
+            "defaultValue": "SubmitDefenderAlertsToVMRay-Beta",
             "type": "string",
             "metadata": {
                 "description": "Name of the Logic App/Playbook"
