@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "PlaybookName": {
-            "defaultValue": "SendEmailNotification",
+            "defaultValue": "SendEmailNotification-Beta",
             "type": "string",
             "metadata": {
                 "description": "Name of the Logic App/Playbook"
