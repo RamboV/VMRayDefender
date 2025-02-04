@@ -95,7 +95,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![11](Images/11.png)
 
-- On the next page select `Build your own template in the editor.
+- On the next page select `Build your own template` in the editor.
   
 ![12](Images/12.png)
 
@@ -181,7 +181,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![11](Images/11.png)
 
-- On the next page select `Build your own template in the editor.
+- On the next page select `Build your own template` in the editor.
   
 ![12](Images/12.png)
 
@@ -207,7 +207,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![11](Images/11.png)
 
-- On the next page select `Build your own template in the editor.
+- On the next page select `Build your own template` in the editor.
   
 ![12](Images/12.png)
 
