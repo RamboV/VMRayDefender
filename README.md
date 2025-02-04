@@ -189,17 +189,17 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - On the next page, provide the appropriate `Subscription` and `Resource group` and click on `Review & create`.
   ** Note: ** : When deploying the function app if you chose a different name, please kindly provide the same name here as well.
   
-![22] (Images/22.png)
+![22](Images/22.png)
 
 - Once the deployment is complete, go to newly deployed logic app, click on edit. The logic app will open in a designer mode.
 - Click on the `WDATP Trigger`, click on `Add new`.
 
-![23] (Images/23.png)
+![23](Images/23.png)
 
 - On the next page, choose `Authentication` as `Service prinicipal`, and provide appropriate values.
 
-![24] (Images/24.png)
-![25] (Images/25.png)
+![24](Images/24.png)
+![25](Images/25.png)
 
 - Save the Logic App.
 
@@ -214,24 +214,24 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Copy `azuredeploy2.json` contents from the `LogicApp` folder and save it.
 - On the next page, provide the appropriate `Subscription` and `Resource group` and click on `Review & create`.
 
-![26] (Images/26.png)
+![26](Images/26.png)
 
 - Once the deployment is complete, go to newly deployed logic app, click on edit. The logic app will open in a designer mode.
 - Click on the `Azure Blob Trigger`, click on `Change connection` and click on `Add new` on the following page.
 
-![27] (Images/27.png)
+![27](Images/27.png)
 
 - Provide appropriate values and click on `Create new`.
 
-![28] (Images/28.png)
+![28](Images/28.png)
 
 - Click on `Get blob content` action, click on `Change connection`.
 
-![29] (Images/29.png)
+![29](Images/29.png)
 
 - Select the connection created in the above step.
 
-![30] (Images/30.png)
+![30](Images/30.png)
 
 - Do the same `Delete blob` action, click on `Change connection` and select the connection created in the above step.
 
