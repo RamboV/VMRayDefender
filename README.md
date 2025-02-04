@@ -120,10 +120,16 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 | Vmray Base URL | VMRay Base URL |
 | Vmray API Key | VMRay API Key |
 | Vmray Resubmit | If true, the files will be resubmitted to VMRay analyser, even if the file hash was found in VMRay |
-| Vmray Sample Verdict | ***** |
+| Vmray API Timeout | VMRay API Timeout in minutes |
+| Vmray API Retry | Max number of retries |
+| Vmray Job Timeout(Minutes) | VMRay API Timeout in minutes |
+| Vmray Job Retry | Max number of retries |
+| Machine Availability Timeout(Minutes) | Machine Avialbility Timeout in minutes |
+| Machine Availability Retry | Max number of retries |
 | Create Indicators In Defender | If true, Indicators will be created in Microsoft Defender |
-| Defender Indicator Action | Additional metadata when creating an indicator in Microsoft Defender |
-| Defender Indicator Alert | Additional metadata when creating an indicator in Microsoft Defender |
+| Vmray Sample Verdict | Based on the selection, Indicators will be created in Microsoft Defender |
+| Defender Indicator Action | The action that is taken if the indicator is discovered in the organization |
+| Defender Indicator Alert | True if alert generation is required, False if this indicator shouldn't generate an alert|
 	
 - Once you provide the above values, please click on `Review + create` button.
 
