@@ -187,7 +187,9 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 - Copy `azuredeploy1.json` contents from the `LogicApp` folder and save it.
 - On the next page, provide the appropriate `Subscription` and `Resource group` and click on `Review & create`.
+
   **Note:** : When deploying the function app if you chose a different name, please kindly provide the same name here as well.
+  
   
 ![22](Images/22.png)
 
