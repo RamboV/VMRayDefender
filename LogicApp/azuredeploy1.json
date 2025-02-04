@@ -188,7 +188,7 @@
                         },
                         "Check_if_the_alert_is_from_AV_or_EDR": {
                             "actions": {
-                                "blueoceans56-VMRayDefender_1": {
+                                "Call-VMRay-Function": {
                                     "limit": {
                                         "timeout": "PT5M"
                                     },
