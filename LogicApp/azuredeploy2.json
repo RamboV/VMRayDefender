@@ -77,7 +77,7 @@
                             },
                             "splitOn": "@triggerBody()",
                             "metadata": {
-                                "JTJmZGVmZW5kZXItYWxlcnQtc3RhdHVz": "/defender-alert-status"
+                                "JTJmZGVmZW5kZXItYWxlcnQtc3RhdHVz": "/vmray-defender-functionapp-status"
                             },
                             "type": "ApiConnection",
                             "inputs": {
