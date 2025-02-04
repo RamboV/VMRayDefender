@@ -97,7 +97,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 - On the next page select `Build your own template in the editor.
   
-![11](Images/11.png)
+![12](Images/12.png)
 
 - Copy `azuredeploy.json` contents from the `FunctionApp` folder and save it.
 
