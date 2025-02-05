@@ -257,10 +257,3 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Click on `Send an Email(V2)` action, click on `Change connection` and click on `Add new` , provide appropriate connection.
 
 - Save the Logic App.
-
-The Connector API key will stay in the connector and be used to fetch analysis.
-Create it by following the steps below:
-  1. Create a user dedicated for this API key (to avoid that the API key is deleted if an employee leaves)
-  2. Create a role that allows to "View shared submission, analysis and sample" and "Submit sample, manage own jobs, reanalyse old analyses and regenerate analysis reports".
-  3. Assign this role to the created user
-  4. Login as this user and create an API key by opening Settings > Analysis > API Keys
