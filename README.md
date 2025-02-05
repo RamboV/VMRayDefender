@@ -203,6 +203,10 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 ![24](Images/24.png)
 ![25](Images/25.png)
 
+- Click on `Alerts - Get single Alert` action, click on `Cheange connection` and select the connection created above.
+
+![24a](Images/24a.png)
+
 - Save the Logic App.
 
 - Open [https://portal.azure.com/](https://portal.azure.com) and search `Deploy a custom template` service.
