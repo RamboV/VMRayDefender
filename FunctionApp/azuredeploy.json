@@ -31,7 +31,6 @@
     },
     "AzureStorageConnectionString": {
       "type": "securestring",
-      "minLength": 1,
       "defaultValue": "",
       "metadata": {
         "description": "Enter Connection String of Your Storage Account."
@@ -39,7 +38,6 @@
     },
     "AzureStorageSasToken": {
       "type": "securestring",
-      "minLength": 1,
       "defaultValue": "",
       "metadata": {
         "description": "Enter SAS Token of Your Storage Account."
@@ -113,14 +111,14 @@
     },
 	"MachineAvailabilityTimeout": {
       "type": "int",
-      "defaultValue": 5,
+      "defaultValue": 10,
       "metadata": {
         "description": "Provide maximum time to wait in minutes, when the machine is not responding."
       }
     },
 	"MachineAvailabilityRetry": {
       "type": "int",
-      "defaultValue": 3,
+      "defaultValue": 5,
       "metadata": {
         "description": "Provide number of retries, when machine is not responding."
       }
