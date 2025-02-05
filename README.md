@@ -104,6 +104,8 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 ![13](Images/13.png)
 
 - On the next page, please provide the values accordingly.
+  
+![13a](Images/13a.png)
 
 |       Fields       |   Description |
 |:---------------------|:--------------------
