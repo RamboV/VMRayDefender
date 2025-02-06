@@ -257,3 +257,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Click on `Send an Email(V2)` action, click on `Change connection` and click on `Add new` , provide appropriate connection.
 
 - Save the Logic App.
+
+
+## Expected Issues With LogicApps
+- Logic App
