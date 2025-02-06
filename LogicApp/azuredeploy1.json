@@ -34,7 +34,7 @@
         }
     },
     "variables": {
-		"functionappName": "[parameters('FunctionAppName')]",
+		"functionappName": "[concat(toLower(parameters('FunctionName')), take(uniqueString(resourceGroup().id), 3))]",
 		"WDATPConnection": "[concat('Wdatp-', parameters('PlaybookName'))]",
 		"AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('PlaybookName'))]"
 	},
