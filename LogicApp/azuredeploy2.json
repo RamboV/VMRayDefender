@@ -170,7 +170,7 @@
                             "type": "AppendToArrayVariable",
                             "inputs": {
                                 "name": "output_array_variable",
-                                "value": "@json(body('Get_blob_content_(V2)'))"
+                                "value": ""
                             }
                         },
                         "Delete_blob_(V2)": {
