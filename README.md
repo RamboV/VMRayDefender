@@ -155,6 +155,10 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 - Open the storage account, the name starts with `vmraystorage`.
 - Go to `Storage Browser` -> `Blob Containers`, click on container, the name starts with `vmraycontainer`.
+- Click on `Switch to Access key`.
+
+![15a](Images/15a.png)
+
 - Upload the downloaded zip package to the container. 
 
 ![15](Images/15.png)
@@ -244,6 +248,14 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![28](Images/28.png)
 
+- Click on `folder icon` on the `Container box`.
+
+![28a](Images/28a.png)
+
+- Select folder named `vmray-defender-functionapp-status`
+
+![28b](Images/28b.png)  
+  
 - Click on `Get blob content` action, click on `Change connection`.
 
 ![29](Images/29.png)
@@ -256,8 +268,13 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 - Click on `Send an Email(V2)` action, click on `Change connection` and click on `Add new` , provide appropriate connection.
 
+ ![31](Images/31.png) 
+
 - Save the Logic App.
 
 
 ## Expected Issues With LogicApps
-- Logic App
+- Logic App `SubmitSampleToVMRayAnalyser` runs will fail. This is a expected behaviour.
+ ![32](Images/32.png) 
+  
+- ** Note** : Once the playbook `SubmitVMRayViaEmail` is properly configured, you will recieve notification once the anlayis is done 
