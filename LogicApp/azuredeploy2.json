@@ -170,7 +170,7 @@
                             "type": "AppendToArrayVariable",
                             "inputs": {
                                 "name": "output_array_variable",
-                                "value": ""
+                                "value": {}
                             }
                         },
                         "Delete_blob_(V2)": {
