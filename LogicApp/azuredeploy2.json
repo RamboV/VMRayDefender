@@ -76,9 +76,6 @@
                                 "frequency": "Minute"
                             },
                             "splitOn": "@triggerBody()",
-                            "metadata": {
-                                "JTJmZGVmZW5kZXItYWxlcnQtc3RhdHVz": "/vmray-defender-functionapp-status"
-                            },
                             "type": "ApiConnection",
                             "inputs": {
                                 "host": {
@@ -89,7 +86,7 @@
                                 "method": "get",
                                 "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/triggers/batch/onupdatedfile",
                                 "queries": {
-                                    "folderId": "JTJmZGVmZW5kZXItYWxlcnQtc3RhdHVz",
+                                    "folderId": "",
                                     "maxFileCount": 1,
                                     "checkBothCreatedAndModifiedDateTime": false
                                 }
@@ -148,7 +145,7 @@
                             },
                             "type": "Table",
                             "inputs": {
-                                "from": "@variables('output_array_variable')",
+                                "from": "@json(body('Get_blob_content_(V2)'))",
                                 "format": "HTML"
                             }
                         },
