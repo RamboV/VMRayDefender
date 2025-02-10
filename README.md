@@ -11,14 +11,17 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ## Solution Overview
 - The connector is built using Azure logic app, Azure functions app and Azure Storage.
-  1. Azure Logic app monitors the alerts from MS Defender.
-  2. Azure functions app check if the alert contains a file. If it does it submit the hash to VMRay to see if it has already been analyzed. If it has, it skips submitting the file to VMRay.
-  3. Azure function app request the file from Microsoft Defender by starting a live response session.
-  4. Microsoft Defender starts a live response session that run PowerShell code on the endpoint. The code moves the files out of quarantine to a temporary folder before sending it back to the connector. The connector stores it in Azure storage.
-  5. The connector submits the file to VMRay.
-  6. When the analysis is done VMRay results are sent back to the connector.
-  7. The connector post the results as a note within the relevant alert.
-  8. If configured to send IOCs, the connector provides the IOCs as the indicators to Microsoft Defender that may use them for automatically alerting or blocking.
+  1. Azure Logic app(SubmitDefenderAlertsToVMRay-Beta) monitors the alerts from MS Defender as soon any AV/EDR alert are generated.
+  2. Azure functions(VMRayDefender) app check if the alert contains a file. If it does it submit the hash to VMRay to see if it has already been analyzed.
+  3. If the hash was already analysed, the system checks if user configure to reanalyse the hash in configuration step, if yes it resubmits that to VMRay to reanalyse, if not it skips re-examining it.
+  4. Azure function app(VMRayDefender) request the file from Microsoft Defender by starting a live response session.
+  5. Microsoft Defender starts a live response session that run PowerShell code on the endpoint. The code moves the files out of quarantine to a temporary folder before sending it back to the connector(VMRayDefender). The connector stores it in Azure storage(vmray-defender-quarantine-files) container.
+  6. The connector(VMRayDefender) submits the file to VMRay.
+  7. When the analysis is done VMRay results are sent back to the connector(VMRayDefender).
+  8. The connector post the results as a note within the relevant alert.
+  9. If configured to send IOCs, the connector provides the IOCs as the indicators to Microsoft Defender that may use them for automatically alerting or blocking.
+  10. Once the connector(VMRayDefender) completes its process, it generates a JSON file named after the Defender Alert ID and uploads it to the Azure Storage Container: vmray-defender-functionapp-status. This JSON file contains all the details of the process.
+  11. The Azure Logic App (SendEmailNotification-Beta) monitors the vmray-defender-functionapp-status container for new files. When a new file is detected, it sends an email notification to the configured recipient in logic app(SendEmailNotification-Beta).
 
 
 ## Requirements
@@ -293,8 +296,14 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
   1. Navigate to the Azure Function App.
   2. Select the function that starts with "vmraydefender".
   3. In the Function section below, choose "VMRayDefender".
+     ![d1](Images/d1.png)
+
   4. Go to the Invocation tab.
+     ![d2](Images/d2.png)
+
   5. Find the execution based on the start time received in the email and match it with the invocation_id from the email.
+     ![d3](Images/d3.png)
+
   6. Review all logs under the selected execution.
 
 
