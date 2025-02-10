@@ -316,7 +316,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![32](Images/32.png)
 
-** Why 2 playbooks Approach **
+**Why 2 playbooks Approach**
   - To overcome the **2 minutes**  isssue, we need to deploy the Logic apps with the **Standard Plan**, it would cost approximately $175 per month.To avoid this extra cost, we created an additional Logic App that monitors whether the previous Logic App succeeded or failed.
  - It then notifies the customer via email, allowing them to stay in sync with the process.
     
