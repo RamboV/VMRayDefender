@@ -9,10 +9,25 @@ The connector will collect alerts and related evidences, and query or submit the
 It accelerates the triage of alerts by adding comments to the alert in MS Defender Console with the analysis of the sample.
 It also retrieves IOC values from VMRay and submits them into Microsoft Defender for Endpoint.
 
+## Solution Overview
+- The connector is built using Azure logic app, Azure functions app and Azure Storage.
+  1. Azure Logic app monitors the alerts from MS Defender.
+  2. Azure functions app check if the alert contains a file. If it does it submit the hash to VMRay to see if it has already been analyzed. If it has, it skips submitting the file to VMRay.
+  3. Azure function app request the file from Microsoft Defender by starting a live response session.
+  4. Microsoft Defender starts a live response session that run PowerShell code on the endpoint. The code moves the files out of quarantine to a temporary folder before sending it back to the connector. The connector stores it in Azure storage.
+  5. The connector submits the file to VMRay.
+  6. When the analysis is done VMRay results are sent back to the connector.
+  7. The connector post the results as a note within the relevant alert.
+  8. If configured to send IOCs, the connector provides the IOCs as the indicators to Microsoft Defender that may use them for automatically alerting or blocking.
+
+
 ## Requirements
 - Microsoft Defender for Endpoint.
 - VMRay Analyzer, VMRay FinalVerdict, VMRay TotalInsight.
-- Microsoft Azure.
+- Microsoft Azure
+  1. Azure functions with Flex Consumption plan.
+  2. Azure Logic App with Cunsumption plan.
+  3. Azure storage with Standard general-purpose v2.
 
 ## VMRay Configurations
 
@@ -273,8 +288,25 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Save the Logic App.
 
 
+## Debugging
+- To debug and check logs after receiving an email, follow these steps:
+  1. Navigate to the Azure Function App.
+  2. Select the function that starts with "vmraydefender".
+  3. In the Function section below, choose "VMRayDefender".
+  4. Go to the Invocation tab.
+  5. Find the execution based on the start time received in the email and match it with the invocation_id from the email.
+  6. Review all logs under the selected execution.
+
+
+
 ## Expected Issues With LogicApps
 - Logic App `SubmitSampleToVMRayAnalyser` runs will fail. This is a expected behaviour.
- ![32](Images/32.png) 
+  Under the Logic App **Consumption Plan**, each connector runs for a maximum of **2 minutes** before retrying the process.
+  This is the default behavior for consumption-based Logic Apps. If we switch to the **Standard Plan**, it would cost approximately $175 per month.
+  To avoid this extra cost, we created an additional Logic App that monitors whether the previous Logic App succeeded or failed.
+  It then notifies the customer via email, allowing them to stay in sync with the process.
+ ![32](Images/32.png)
+
+
   
 - ** Note** : Once the playbook `SubmitVMRayViaEmail` is properly configured, you will recieve notification once the anlayis is done 
