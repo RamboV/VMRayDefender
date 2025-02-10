@@ -23,6 +23,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
   10. Once the connector(VMRayDefender) completes its process, it generates a JSON file named after the Defender Alert ID and uploads it to the Azure Storage Container: vmray-defender-functionapp-status. This JSON file contains all the details of the process.
   11. The Azure Logic App (SendEmailNotification-Beta) monitors the vmray-defender-functionapp-status container for new files. When a new file is detected, it sends an email notification to the configured recipient in logic app(SendEmailNotification-Beta).
 
+![solution_overview](Images/solution_overview.png)
 
 ## Requirements
 - Microsoft Defender for Endpoint.
