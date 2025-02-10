@@ -11,17 +11,17 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ## Solution Overview
 - The connector is built using Azure logic app, Azure functions app and Azure Storage.
-  1. Azure Logic app(SubmitDefenderAlertsToVMRay-Beta) monitors the alerts from MS Defender as soon any AV/EDR alert are generated.
-  2. Azure functions(VMRayDefender) app check if the alert contains a file. If it does it submit the hash to VMRay to see if it has already been analyzed.
+  1. Azure Logic app `SubmitDefenderAlertsToVMRay-Beta` monitors the alerts from MS Defender as soon any AV/EDR alert are generated. If any AV/EDR alert is found, it will send the alert details to the Azure function app `VMRayDefenderBeta`.
+  2. Azure function app `VMRayDefenderBeta` checks if the alert contains a file and checks if the file hash has already been analyzed by VMRay.
   3. If the hash was already analysed, the system checks if user configure to reanalyse the hash in configuration step, if yes it resubmits that to VMRay to reanalyse, if not it skips re-examining it.
-  4. Azure function app(VMRayDefender) request the file from Microsoft Defender by starting a live response session.
-  5. Microsoft Defender starts a live response session that run PowerShell code on the endpoint. The code moves the files out of quarantine to a temporary folder before sending it back to the connector(VMRayDefender). The connector stores it in Azure storage(vmray-defender-quarantine-files) container.
-  6. The connector(VMRayDefender) submits the file to VMRay.
-  7. When the analysis is done VMRay results are sent back to the connector(VMRayDefender).
-  8. The connector post the results as a note within the relevant alert.
-  9. If configured to send IOCs, the connector provides the IOCs as the indicators to Microsoft Defender that may use them for automatically alerting or blocking.
-  10. Once the connector(VMRayDefender) completes its process, it generates a JSON file named after the Defender Alert ID and uploads it to the Azure Storage Container: vmray-defender-functionapp-status. This JSON file contains all the details of the process.
-  11. The Azure Logic App (SendEmailNotification-Beta) monitors the vmray-defender-functionapp-status container for new files. When a new file is detected, it sends an email notification to the configured recipient in logic app(SendEmailNotification-Beta).
+  4. Azure function app `VMRayDefenderBeta` requests the file from Microsoft Defender by starting a live response session.
+  5. Microsoft Defender starts a live response session that run PowerShell code on the endpoint. The power shell moves the files out of quarantine to a temporary folder before sending to Azure storage(vmray-defender-quarantine-files) container. 
+  6. Azure function app `VMRayDefenderBeta` monitors the Azure storage(vmray-defender-quarantine-files) container and submits the quarantine file to VMRay.
+  7. Azure function app `VMRayDefenderBeta` will wait till the submission is completed and When the VMRay analysis is done VMRay results are sent back to the Azure function app `VMRayDefenderBeta`.
+  8. The Azure function app `VMRayDefenderBeta` post the results as a note within the relevant defender alert.
+  9. If configured to send IOCs, the Azure function app `VMRayDefenderBeta` provides the IOCs as the indicators to Microsoft Defender that may use them for automatically alerting or blocking.
+  10. Once the Azure function app `VMRayDefenderBeta` completes its process, it generates a JSON file named after the Defender Alert ID and uploads it to the Azure Storage Container: vmray-defender-functionapp-status. This JSON file contains all the details of the process.
+  11. The Azure Logic App `SendEmailNotification-Beta` monitors the vmray-defender-functionapp-status container for new files. When a new file is detected, it sends an email notification to the configured recipient in logic app.
 
 ![solution_overview](Images/solution_overview.png)
 
@@ -30,7 +30,9 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - VMRay Analyzer, VMRay FinalVerdict, VMRay TotalInsight.
 - Microsoft Azure
   1. Azure functions with Flex Consumption plan.
+     Reference: https://learn.microsoft.com/en-us/azure/azure-functions/flex-consumption-plan
   2. Azure Logic App with Cunsumption plan.
+     Reference: https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-pricing#consumption-multitenant
   3. Azure storage with Standard general-purpose v2.
 
 ## VMRay Configurations
@@ -308,15 +310,13 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
   6. Review all logs under the selected execution.
 
 
-
 ## Expected Issues With LogicApps
-- Logic App `SubmitSampleToVMRayAnalyser` runs will fail. This is a expected behaviour.
-  Under the Logic App **Consumption Plan**, each connector runs for a maximum of **2 minutes** before retrying the process.
-  This is the default behavior for consumption-based Logic Apps. If we switch to the **Standard Plan**, it would cost approximately $175 per month.
-  To avoid this extra cost, we created an additional Logic App that monitors whether the previous Logic App succeeded or failed.
-  It then notifies the customer via email, allowing them to stay in sync with the process.
- ![32](Images/32.png)
+- Logic App `SubmitDefenderAlertsToVMRay-Beta` runs will fail. This is a expected behaviour.
+- In Logic App **Consumption Plan**, each API call runs for a maximum of **2 minutes** before retrying the process. This is the default behavior for consumption-based Logic Apps. Since this Logic App is calling the `VMRayDefenderBeta` function app and the process might take more than 2m to finish, the Logic App will fail. But the `VMRayDefenderBeta` function app will do all the work behind and let the customers know once the analyisis is completed
 
+![32](Images/32.png)
 
-  
-- ** Note** : Once the playbook `SubmitVMRayViaEmail` is properly configured, you will recieve notification once the anlayis is done 
+** Why 2 playbooks Approach **
+  - To overcome the **2 minutes**  isssue, we need to deploy the Logic apps with the **Standard Plan**, it would cost approximately $175 per month.To avoid this extra cost, we created an additional Logic App that monitors whether the previous Logic App succeeded or failed.
+ - It then notifies the customer via email, allowing them to stay in sync with the process.
+    
