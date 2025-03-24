@@ -31,35 +31,6 @@
             "metadata": {
                 "description": "Name of the FunctionApp"
             }
-        },
-		"DefenderAlertSeverity": {
-            "type": "string",
-            "allowedValues": [
-                "High",
-                "Medium",
-                "Low",
-                "Informational",
-				"UnSpecified",
-                "ALL"
-            ],
-			"defaultValue": "ALL",
-            "metadata": {
-                "description": "Microsoft Defender for Endpoint Alert Severities used for filtering alerts"
-            }
-        },
-		"DefenderAlertStatus": {
-            "type": "string",
-            "allowedValues": [
-                "New",
-                "InProgress",
-                "Resolved",
-                "Unknown",
-                "ALL"
-            ],
-			"defaultValue": "ALL",
-            "metadata": {
-                "description": "Microsoft Defender for Endpoint Alert Statuses used for filtering alerts"
-            }
         }
     },
     "variables": {
@@ -119,7 +90,36 @@
                         "$connections": {
                             "defaultValue": {},
                             "type": "Object"
-                        }
+                        },
+						"DefenderAlertSeverity": {
+							"type": "string",
+							"allowedValues": [
+								"High",
+								"Medium",
+								"Low",
+								"Informational",
+								"UnSpecified",
+								"ALL"
+							],
+							"defaultValue": "ALL",
+							"metadata": {
+								"description": "Microsoft Defender for Endpoint Alert Severities used for filtering alerts"
+							}
+						},
+						"DefenderAlertStatus": {
+							"type": "string",
+							"allowedValues": [
+								"New",
+								"InProgress",
+								"Resolved",
+								"Unknown",
+								"ALL"
+							],
+							"defaultValue": "ALL",
+							"metadata": {
+								"description": "Microsoft Defender for Endpoint Alert Statuses used for filtering alerts"
+							}
+						}
                     },
                     "triggers": {
                         "Triggers_-_Trigger_when_new_WDATP_alert_occurs": {
@@ -341,7 +341,7 @@
                                                     {
                                                         "equals": [
                                                             "@variables('alert_status')",
-                                                            "@variables('alert_status')"
+                                                            "@body('Alerts_-_Get_single_alert')?['status']"
                                                         ]
                                                     }
                                                 ]
