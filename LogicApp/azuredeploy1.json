@@ -42,7 +42,7 @@
 				"UnSpecified",
                 "ALL"
             ],
-			"defaultValue": "ALL",
+			"defaultValue": "ALL,
             "metadata": {
                 "description": "Microsoft Defender for Endpoint Alert Severities used for filtering alerts"
             }
@@ -56,7 +56,7 @@
                 "Unknown",
                 "ALL"
             ],
-			"defaultValue": "ALL",
+			"defaultValue": "ALL,
             "metadata": {
                 "description": "Microsoft Defender for Endpoint Alert Statuses used for filtering alerts"
             }
@@ -301,7 +301,7 @@
                                                     "detection_source": "@variables('defender_alert_source')"
                                                 },
                                                 "function": {
-                                                    "id": "[concat(parameters('sites_vmraydefenderbeta7hw_externalid'), '/functions/VMRayDefender')]"
+                                                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/sites/', variables('Functionappname'), '/functions/VMRayDefender')]"
                                                 },
                                                 "retryPolicy": {
                                                     "type": "none"
