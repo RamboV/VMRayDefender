@@ -340,6 +340,13 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ## Steps to Update from 1.0.0-beta.1 to 1.0.0-beta.2 Version 
 
+
+- Open the storage account, the name starts with `vmraystorage`.
+
+- Go to `Security + networking` -> `Access keys`, Copy `Key` and save it temporarily for next steps.
+
+![17](Images/17.png)
+
 ### Deployment of Function App Zip package
 
 - Download the zip package from the `FunctionApp` folder.
@@ -355,8 +362,27 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 - Upload the downloaded zip package to the container. 
 
-![15](Images/15.png)
-
 - Check on `Overwrite if files already exist`, click on `Upload`.
 
 ![beta1_01](Images/beta1_01.png)
+
+- Go to `Security + networking` -> `Access keys`, Copy `Key` and save it temporarily for next steps.
+
+![17](Images/17.png)
+
+### Configuration of Function App
+
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Function App` service.
+
+![19](Images/19.png)
+
+- Open the VMRay FunctionApp name starts with `vmraydefender`.
+- Go to `Settings`->`Environment variables`, double-click `AzureStorageSasToken`.
+- Change the Name from `AzureStorageSasToken` to `AzureStorageAccountKey` and provide the `Key` value copied in the previous step and click on `save`.
+- Click on `Apply` -> `Confirm` buttons.
+
+![beta1_02](Images/beta1_02.png)
+
+- Go to `Overview` -> click on `Restart`.
+
+![21](Images/21.png)
