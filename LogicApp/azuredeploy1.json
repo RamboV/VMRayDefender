@@ -261,7 +261,7 @@
                                     {
                                         "name": "alert_status",
                                         "type": "string",
-                                        "value": "[parameters('DefenderAlertStatus')]"
+                                        "value": "@parameters('$DefenderAlertStatus')"
                                     }
                                 ]
                             }
@@ -278,7 +278,7 @@
                                     {
                                         "name": "alert_severity",
                                         "type": "string",
-                                        "value": "[parameters('DefenderAlertSeverity')]"
+                                        "value": "@parameters('DefenderAlertSeverity')"
                                     }
                                 ]
                             }
