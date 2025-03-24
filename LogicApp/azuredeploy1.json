@@ -40,9 +40,9 @@
                 "Low",
                 "Informational",
 				"UnSpecified",
-                "All"
+                "ALL"
             ],
-			"defaultValue": "All,
+			"defaultValue": "ALL,
             "metadata": {
                 "description": "Microsoft Defender for Endpoint Alert Severities used for filtering alerts"
             }
@@ -54,9 +54,9 @@
                 "InProgress",
                 "Resolved",
                 "Unknown",
-                "All"
+                "ALL"
             ],
-			"defaultValue": "All,
+			"defaultValue": "ALL,
             "metadata": {
                 "description": "Microsoft Defender for Endpoint Alert Statuses used for filtering alerts"
             }
@@ -65,9 +65,9 @@
     "variables": {
 		"functionappName": "[concat(toLower(parameters('Functionappname')), take(uniqueString(resourceGroup().id), 3))]",
 		"WDATPConnection": "[concat('Wdatp-', parameters('PlaybookName'))]",
-		"AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('PlaybookName'))]"
-		"DefenderAlertStatus": parameters('DefenderAlertStatus')
-		"DefenderAlertSeverity": parameters('DefenderAlertSeverity')
+		"AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('PlaybookName'))]",
+		"DefenderAlertStatusVar": "[parameters('DefenderAlertStatus')]",
+		"DefenderAlertSeverityVar": "[parameters('DefenderAlertSeverity')]"
 	},
     "resources": [
 		{
@@ -263,7 +263,7 @@
                                     {
                                         "name": "alert_status",
                                         "type": "string",
-                                        "value": "[variables('DefenderAlertStatus')]"
+                                        "value": "[variables('DefenderAlertStatusVar')]"
                                     }
                                 ]
                             }
@@ -280,7 +280,7 @@
                                     {
                                         "name": "alert_severity",
                                         "type": "string",
-                                        "value": "[variables('DefenderAlertSeverity')]"
+                                        "value": "[variables('DefenderAlertSeverityVar')]"
                                     }
                                 ]
                             }
