@@ -42,7 +42,7 @@
 				"UnSpecified",
                 "ALL"
             ],
-			"defaultValue": "ALL,
+			"defaultValue": "ALL",
             "metadata": {
                 "description": "Microsoft Defender for Endpoint Alert Severities used for filtering alerts"
             }
@@ -56,7 +56,7 @@
                 "Unknown",
                 "ALL"
             ],
-			"defaultValue": "ALL,
+			"defaultValue": "ALL",
             "metadata": {
                 "description": "Microsoft Defender for Endpoint Alert Statuses used for filtering alerts"
             }
