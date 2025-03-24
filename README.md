@@ -333,7 +333,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 ## Version History
 
 |       Version       |   Release Date | Release Notes
-|:---------------------|:--------------------
+|:---------------------|:--------------------|:---------------- |
 | 1.0.0-beta.1		|  `07-02-2025`  | Initial Release |
 | 1.0.0-beta.2 	| `25-03-2025` | Bug Fixes |
 
