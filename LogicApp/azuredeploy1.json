@@ -31,12 +31,43 @@
             "metadata": {
                 "description": "Name of the FunctionApp"
             }
+        },
+		"DefenderAlertSeverity": {
+            "type": "string",
+            "allowedValues": [
+                "High",
+                "Medium",
+                "Low",
+                "Informational",
+				"UnSpecified",
+                "All"
+            ],
+			"defaultValue": "All,
+            "metadata": {
+                "description": "Microsoft Defender for Endpoint Alert Severities used for filtering alerts"
+            }
+        },
+		"DefenderAlertStatus": {
+            "type": "string",
+            "allowedValues": [
+                "New",
+                "InProgress",
+                "Resolved",
+                "Unknown",
+                "All"
+            ],
+			"defaultValue": "All,
+            "metadata": {
+                "description": "Microsoft Defender for Endpoint Alert Statuses used for filtering alerts"
+            }
         }
     },
     "variables": {
 		"functionappName": "[concat(toLower(parameters('Functionappname')), take(uniqueString(resourceGroup().id), 3))]",
 		"WDATPConnection": "[concat('Wdatp-', parameters('PlaybookName'))]",
 		"AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('PlaybookName'))]"
+		"DefenderAlertStatus": parameters('DefenderAlertStatus')
+		"DefenderAlertSeverity": parameters('DefenderAlertSeverity')
 	},
     "resources": [
 		{
@@ -112,7 +143,11 @@
                     },
                     "actions": {
                         "Defender_Alert_ID": {
-                            "runAfter": {},
+                            "runAfter": {
+                                "Defender_Alert_Severity": [
+                                    "Succeeded"
+                                ]
+                            },
                             "type": "InitializeVariable",
                             "inputs": {
                                 "variables": [
@@ -186,54 +221,6 @@
                                 "value": "@body('Alerts_-_Get_single_alert')?['detectionSource']"
                             }
                         },
-                        "Check_if_the_alert_is_from_AV_or_EDR": {
-                            "actions": {
-                                "Call-VMRay-Function": {
-                                    "limit": {
-                                        "timeout": "PT5M"
-                                    },
-                                    "type": "Function",
-                                    "inputs": {
-                                        "body": {
-                                            "alert": "@triggerBody()",
-                                            "threat_name": "@body('Alerts_-_Get_single_alert')['threatName']",
-                                            "detection_source": "@variables('defender_alert_source')"
-                                        },
-                                        "function": {
-                                            "id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/sites/', variables('Functionappname'), '/functions/VMRayDefender')]"
-                                        },
-                                        "retryPolicy": {
-                                            "type": "none"
-                                        }
-                                    }
-                                }
-                            },
-                            "runAfter": {
-                                "Set_Defender_Alert_Source": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "else": {
-                                "actions": {}
-                            },
-                            "expression": {
-                                "or": [
-                                    {
-                                        "equals": [
-                                            "@variables('defender_alert_source')",
-                                            "@variables('defender_edr_string')"
-                                        ]
-                                    },
-                                    {
-                                        "equals": [
-                                            "@variables('defender_alert_source')",
-                                            "@variables('defender_av_string')"
-                                        ]
-                                    }
-                                ]
-                            },
-                            "type": "If"
-                        },
                         "Defender_EDR_Source_string": {
                             "runAfter": {
                                 "Defender_Alert_Source": [
@@ -267,6 +254,128 @@
                                     }
                                 ]
                             }
+                        },
+                        "Defender_Alert_Status": {
+                            "runAfter": {},
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "alert_status",
+                                        "type": "string",
+                                        "value": "[variables('DefenderAlertStatus')]"
+                                    }
+                                ]
+                            }
+                        },
+                        "Defender_Alert_Severity": {
+                            "runAfter": {
+                                "Defender_Alert_Status": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "alert_severity",
+                                        "type": "string",
+                                        "value": "[variables('DefenderAlertSeverity')]"
+                                    }
+                                ]
+                            }
+                        },
+                        "Check_if_the_alert_is_from_AV_or_EDR": {
+                            "actions": {
+                                "Check_Alert_Severity": {
+                                    "actions": {
+                                        "Call-VMRay-Function": {
+                                            "limit": {
+                                                "timeout": "PT5M"
+                                            },
+                                            "type": "Function",
+                                            "inputs": {
+                                                "body": {
+                                                    "alert": "@triggerBody()",
+                                                    "threat_name": "@body('Alerts_-_Get_single_alert')['threatName']",
+                                                    "detection_source": "@variables('defender_alert_source')"
+                                                },
+                                                "function": {
+                                                    "id": "[concat(parameters('sites_vmraydefenderbeta7hw_externalid'), '/functions/VMRayDefender')]"
+                                                },
+                                                "retryPolicy": {
+                                                    "type": "none"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "else": {
+                                        "actions": {}
+                                    },
+                                    "expression": {
+                                        "and": [
+                                            {
+                                                "or": [
+                                                    {
+                                                        "equals": [
+                                                            "@variables('alert_severity')",
+                                                            "ALL"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "equals": [
+                                                            "@variables('alert_severity')",
+                                                            "@body('Alerts_-_Get_single_alert')?['severity']"
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "or": [
+                                                    {
+                                                        "equals": [
+                                                            "@variables('alert_status')",
+                                                            "ALL"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "equals": [
+                                                            "@variables('alert_status')",
+                                                            "@variables('alert_status')"
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "type": "If"
+                                }
+                            },
+                            "runAfter": {
+                                "Set_Defender_Alert_Source": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "else": {
+                                "actions": {}
+                            },
+                            "expression": {
+                                "or": [
+                                    {
+                                        "equals": [
+                                            "@variables('defender_alert_source')",
+                                            "@variables('defender_edr_string')"
+                                        ]
+                                    },
+                                    {
+                                        "equals": [
+                                            "@variables('defender_alert_source')",
+                                            "@variables('defender_av_string')"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "type": "If"
                         }
                     },
                     "outputs": {}
