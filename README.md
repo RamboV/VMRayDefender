@@ -1,6 +1,6 @@
 # Microsoft Defender for Endpoint Azure Connector for VMRay Advanced Malware Sandbox
 
-**Latest Version:** beta - **Release Date:** 
+**Latest Version:** 1.0.0-beta.2 - **Release Date:25/03/2025** 
 
 ## Overview
 
@@ -328,3 +328,15 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
      ![d3](Images/d3.png)
 
   6. Review all logs under the selected execution.
+     
+
+## Version History
+
+|       Version       |   Release Date | Release Notes
+|:---------------------|:--------------------
+| 1.0.0-beta.1		|  `07-02-2025`  | Initial Release |
+| 1.0.0-beta.2 	| `25-03-2025` | Bug Fixes |
+
+## Updating from 1.0.0-beta.1 to 1.0.0-beta.2 
+
+- 
