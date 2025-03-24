@@ -308,6 +308,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Open the storage account, the name starts with `vmraystorage`.
 - Go to `Microsoft Defender For Cloud`->`settings`, disable the `Microsoft Defender For Storage` and click on `save`.
 
+![defender_disable](Images/defender_disable.png)
 
 ## Expected Issues With LogicApps
 - Logic App `SubmitDefenderAlertsToVMRay` runs will fail. This is a expected behaviour.
@@ -337,6 +338,25 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 | 1.0.0-beta.1		|  `07-02-2025`  | Initial Release |
 | 1.0.0-beta.2 	| `25-03-2025` | Bug Fixes |
 
-## Updating from 1.0.0-beta.1 to 1.0.0-beta.2 
+## Steps to Update from 1.0.0-beta.1 to 1.0.0-beta.2 Version 
 
-- 
+### Deployment of Function App Zip package
+
+- Download the zip package from the `FunctionApp` folder.
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Storage accounts` service.
+
+![14](Images/14.png)
+
+- Open the storage account, the name starts with `vmraystorage`.
+- Go to `Storage Browser` -> `Blob Containers`, click on container, the name starts with `vmraycontainer`.
+- Click on `Switch to Access key`.
+
+![15a](Images/15a.png)
+
+- Upload the downloaded zip package to the container. 
+
+![15](Images/15.png)
+
+- Check on `Overwrite if files already exist`, click on `Upload`.
+
+![beta1_01](Images/beta1_01.png)
