@@ -148,7 +148,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 | Azure Client Secret | Enter the Azure Client Secret created in the App Registration Step |
 |Azure Tenant ID | Enter the Azure Tenant ID of the App Registration |
 | Azure Storage Connection String| Please leave this empty |
-| Azure Storage Saas Token| Please leave this empty |
+| Azure Storage Account Key| Please leave this empty |
 | App Insights Workspace Resource ID | Go to `Log Analytics workspace` -> `Settings` -> `Properties`, Copy `Resource ID` and paste here |
 | Vmray Base URL | VMRay Base URL |
 | Vmray API Key | VMRay API Key |
@@ -188,13 +188,10 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![16](Images/16.png)
 
-- Go to `Security + networking` -> `Shared access signature`, check all the options under `Allowed resource types`, provide `End`(expiration time, preferred 06 months), click on `Generate SAS and connection string`.
+- Go to `Security + networking` -> `Access keys`, Copy `Key` and save it temporarily for next steps.
 
 ![17](Images/17.png)
 
-- Copy `SAS token` and save it temporarily for next steps.
-
-![18](Images/18.png)
 
 ### Configuration of Function App
 
@@ -203,8 +200,8 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 ![19](Images/19.png)
 
 - Open the VMRay FunctionApp name starts with `vmraydefender`.
-- Go to `Settings`->`Environment variables`, double-click `AzureStorageConnectionString` and provide the connection string value copied in the previous step and click on `save`.
-- Go to `Settings`->`Environment variables`, double-click `AzureStorageSaasToken` and provide the Saas token value copied in the previous step and click on `save`.
+- Go to `Settings`->`Environment variables`, double-click `AzureStorageConnectionString` and provide the `connection string` value copied in the previous step and click on `save`.
+- Go to `Settings`->`Environment variables`, double-click `AzureStorageAccountKey` and provide the `Key` value copied in the previous step and click on `save`.
 - Click on `Apply` -> `Confirm` buttons.
 
 ![20](Images/20.png)
@@ -214,6 +211,10 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 ![21](Images/21.png)
 
 ## Microsoft Azure Logic App Installation And Configuration
+
+### Submit-Defender-Alerts-To-VMRay Logic App Installation
+
+- This playbook is mandatory. The Logic App collects the Defender Alerts and sends to VMRay Function App Connector for further processing.
 
 - Open [https://portal.azure.com/](https://portal.azure.com) and search `Deploy a custom template` service.
 
@@ -246,6 +247,11 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 ![24a](Images/24a.png)
 
 - Save the Logic App.
+
+
+### Submit-VMRay-Analysis-Results-Via-Email Logic App Installation
+
+- This playbook is optional. This logic app is used to notify users about the defender alert status via email.
 
 - Open [https://portal.azure.com/](https://portal.azure.com) and search `Deploy a custom template` service.
 
@@ -293,7 +299,21 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 - Save the Logic App.
 
+## Disable Microsoft Defender for VMRay Storage Account
 
+- Open [https://portal.azure.com/](https://portal.azure.com) and search `Storage accounts` service.
+
+![14](Images/14.png)
+
+- Open the storage account, the name starts with `vmraystorage`.
+- Go to `Microsoft Defender For Cloud`->`settings`, disable the `Microsoft Defender For Storage` and click on `save`.
+
+
+## Expected Issues With LogicApps
+- Logic App `SubmitDefenderAlertsToVMRay` runs will fail. This is a expected behaviour.
+![32](Images/32.png)
+
+    
 ## Debugging
 - To debug and check logs after receiving an email, follow these steps:
   1. Navigate to the Azure Function App.
@@ -308,15 +328,3 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
      ![d3](Images/d3.png)
 
   6. Review all logs under the selected execution.
-
-
-## Expected Issues With LogicApps
-- Logic App `SubmitDefenderAlertsToVMRay` runs will fail. This is a expected behaviour.
-- In Logic App **Consumption Plan**, each API call runs for a maximum of **2 minutes** before retrying the process. This is the default behavior for consumption-based Logic Apps. Since this Logic App is calling the `VMRayDefender` function app and the process might take more than 2m to finish, the Logic App will fail. But the `VMRayDefender` function app will do all the work behind and let the customers know once the analyisis is completed
-
-![32](Images/32.png)
-
-**Why 2 playbooks Approach**
-  - To overcome the **2 minutes**  isssue, we need to deploy the Logic apps with the **Standard Plan**, it would cost approximately $175 per month.To avoid this extra cost, we created an additional Logic App that monitors whether the previous Logic App succeeded or failed.
- - It then notifies the customer via email, allowing them to stay in sync with the process.
-    
