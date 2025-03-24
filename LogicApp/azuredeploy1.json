@@ -36,9 +36,7 @@
     "variables": {
 		"functionappName": "[concat(toLower(parameters('Functionappname')), take(uniqueString(resourceGroup().id), 3))]",
 		"WDATPConnection": "[concat('Wdatp-', parameters('PlaybookName'))]",
-		"AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('PlaybookName'))]",
-		"DefenderAlertStatusVar": "[parameters('DefenderAlertStatus')]",
-		"DefenderAlertSeverityVar": "[parameters('DefenderAlertSeverity')]"
+		"AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('PlaybookName'))]"
 	},
     "resources": [
 		{
@@ -263,7 +261,7 @@
                                     {
                                         "name": "alert_status",
                                         "type": "string",
-                                        "value": "[variables('DefenderAlertStatusVar')]"
+                                        "value": "[parameters('DefenderAlertStatus')]"
                                     }
                                 ]
                             }
@@ -280,7 +278,7 @@
                                     {
                                         "name": "alert_severity",
                                         "type": "string",
-                                        "value": "[variables('DefenderAlertSeverityVar')]"
+                                        "value": "[parameters('DefenderAlertSeverity')]"
                                     }
                                 ]
                             }
