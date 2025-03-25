@@ -387,7 +387,7 @@ Note: This solution cannot analyze files removed by Defender. It can only analyz
 
 ![15a](Images/15a.png)
 
-- Upload the downloaded zip package to the container and makes sure the name is not modified. 
+- Upload the downloaded zip package to the container and make sure the name is not modified. 
 
 - Check on `Overwrite if files already exist`, click on `Upload`.
 
