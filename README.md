@@ -411,4 +411,4 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ### Submit-Defender-Alerts-To-VMRay Logic App Installation
 
-- Please re-dploy the Logic App, following the instructions given in the document.- Please re-dploy the Logic App, following the instructions given in the document.[Submit-Defender-Alerts-To-VMRay Logic App Installation](# Submit-Defender-Alerts-To-VMRay Logic App Installation)
+- Please re-dploy the Logic App, following the instructions given in the document.- Please re-dploy the Logic App, following the instructions given in the document.- Please re-dploy the Logic App, following the instructions given in the document.[Submit-Defender-Alerts-To-VMRay Logic App Installation](#submit-defender-alerts-to-vmray-logic-app-installation)
