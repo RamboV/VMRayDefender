@@ -249,7 +249,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 #### Filtering the Defender alerts
 
-- If you would like to filter the Defender alerts based on alert severity or alert status, click on `Parameters`, and set the `DefenderAlertSeverity` and `DefenderAlertStatus` property values accordigly, by default both the values are set to `ALL`.
+- If you would like to filter the Defender alerts based on alert severity or alert status, click on `Parameters`, and set the `DefenderAlertSeverity` and `DefenderAlertStatus` property values accordingly, by default both the values are set to `ALL`.
 
 - Allowed values for `DefenderAlertSeverity` parameter are listed below, kindly note all values are case-senitive
 	* High
@@ -411,4 +411,4 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ### Submit-Defender-Alerts-To-VMRay Logic App Installation
 
-- Please re-dploy the Logic App, following the instructions given in the document.[Submit-Defender-Alerts-To-VMRay Logic App Installation](Submit-Defender-Alerts-To-VMRay Logic App Installation)
+- Please re-dploy the Logic App, following the instructions given in the document.[Submit-Defender-Alerts-To-VMRay Logic App Installation](#Submit-Defender-Alerts-To-VMRay Logic App Installation)
