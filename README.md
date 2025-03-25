@@ -11,17 +11,19 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ## Solution Overview
 - The connector is built using Azure logic app, Azure functions app and Azure Storage.
-  1. Azure Logic app `SubmitDefenderAlertsToVMRay` monitors the alerts from MS Defender as soon any AV/EDR alert are generated. If any AV/EDR alert is found, it will send the alert details to the Azure function app `VMRayDefender`.
+  1. Azure Logic app `SubmitDefenderAlertsToVMRay` monitors the alerts from MS Defender as soon any AV/EDR alerts are generated. If any AV/EDR alert is found, it will send the alert details to the Azure function app `VMRayDefender`.
   2. Azure function app `VMRayDefender` checks if the alert contains a file and checks if the file hash has already been analyzed by VMRay.
-  3. If the hash was already analysed, the system checks if user configure to reanalyse the hash in configuration step, if yes it resubmits that to VMRay to reanalyse, if not it skips re-examining it.
+  3. If the hash was already analysed, the system checks if user configure to reanalyse the hash in configuration step, if yes it resubmits that to VMRay to reanalyze, if not it skips re-examining it.
   4. Azure function app `VMRayDefender` requests the file from Microsoft Defender by starting a live response session.
-  5. Microsoft Defender starts a live response session that run PowerShell code on the endpoint. The power shell moves the files out of quarantine to a temporary folder before sending to Azure storage(vmray-defender-quarantine-files) container. 
+  5. Microsoft Defender starts a live response session that run PowerShell code on the endpoint. The Powershell moves the files out of quarantine to a temporary folder before sending to Azure storage(vmray-defender-quarantine-files) container. 
   6. Azure function app `VMRayDefender` monitors the Azure storage(vmray-defender-quarantine-files) container and submits the quarantine file to VMRay.
   7. Azure function app `VMRayDefender` will wait till the submission is completed and When the VMRay analysis is done VMRay results are sent back to the Azure function app `VMRayDefender`.
   8. The Azure function app `VMRayDefender` post the results as a note within the relevant defender alert.
   9. If configured to send IOCs, the Azure function app `VMRayDefender` provides the IOCs as the indicators to Microsoft Defender that may use them for automatically alerting or blocking.
   10. Once the Azure function app `VMRayDefender` completes its process, it generates a JSON file named after the Defender Alert ID and uploads it to the Azure Storage Container: vmray-defender-functionapp-status. This JSON file contains all the details of the process.
   11. The Azure Logic App `SendEmailNotification` monitors the vmray-defender-functionapp-status container for new files. When a new file is detected, it sends an email notification to the configured recipient in logic app.
+  
+Note: This solution cannot analyze files removed by Defender. It can only analyze files that Defender AV has moved to quarantine or flagged by Defender EDR
 
 ![solution_overview](Images/solution_overview.png)
 
@@ -31,19 +33,19 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Microsoft Azure
   1. Azure functions with Flex Consumption plan.
      Reference: https://learn.microsoft.com/en-us/azure/azure-functions/flex-consumption-plan
-  2. Azure Logic App with Cunsumption plan.
+  2. Azure Logic App with Consumption plan.
      Reference: https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-pricing#consumption-multitenant
   3. Azure storage with Standard general-purpose v2.
 
 ## VMRay Configurations
 
-- In VMRay Console, you must create a Connector API key.Create it by following the steps below:
+- In VMRay Console, you must create a Connector API key by following the steps below:
   
-  1. Create a user dedicated for this API key (to avoid that the API key is deleted if an employee leaves)
+  1. Create a user dedicated to this API key (to avoid that the API key is deleted if an employee leaves)
   2. Create a role that allows to "View shared submission, analysis and sample" and "Submit sample, manage own jobs, reanalyse old analyses and regenerate analysis reports".
   3. Assign this role to the created user
   4. Login as this user and create an API key by opening Settings > Analysis > API Keys.
-  5. Please save the keys, which will be used in confiring the Azure Function.
+  5. Please save the keys, which will be used in configuring the Azure Function.
 
      
 ## Microsoft Defender for Endpoint Configurations
@@ -58,7 +60,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![02](Images/02.png)
 
-- Enter the name of application and select supported account types and click on `Register`.
+- Enter the name of application, select supported account types, and click on `Register`.
 
 ![03](Images/03.png)
 
@@ -74,18 +76,18 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![05](Images/05.png)
 
-- On the next page select `Application Permissions` and check permissions according to the table below. And click `Add permissions` button below.
+- On the next page, select `Application Permissions` and check the permissions according to the table below. Then, click `Add permissions` button below.
 
-|       Category       |   Permission Name   |    Description   |
-|:---------------------|:--------------------|:---------------- |
-| Alert                | Alert.Read.All      | Needed to retrieve alerts and related evidence  |
-| Alert                | Alert.ReadWrite.All | Needed to enrich alerts with sample information  |
-| Machine              | Machine.LiveResponse | Needed to gather evidences from machines |
-| Machine              | Machine.Read.All | Needed to retrieve information about machines  |
-| Ti                   | Ti.Read.All | Needed to retrieve indicators  |
-| Ti                   | Ti.ReadWrite | Needed to retrieve and submit indicators (application specific)|
-| Ti                   | Ti.ReadWrite.All | Needed to retrieve and submit indicators (general) |
-| Library              | Library.Manage | Needed to upload custom ps1 script for retrieving av related evidences |
+|       Category       |   Permission Name   | Description                                                            |
+|:---------------------|:--------------------|:-----------------------------------------------------------------------|
+| Alert                | Alert.Read.All      | Needed to retrieve alerts and related evidence                         |
+| Alert                | Alert.ReadWrite.All | Needed to enrich alerts with sample information                        |
+| Machine              | Machine.LiveResponse | Needed to gather evidences from machines                               |
+| Machine              | Machine.Read.All | Needed to retrieve information about machines                          |
+| Ti                   | Ti.Read.All | Needed to retrieve indicators                                          |
+| Ti                   | Ti.ReadWrite | Needed to retrieve and submit indicators (application specific)        |
+| Ti                   | Ti.ReadWrite.All | Needed to retrieve and submit indicators (general)                     |
+| Library              | Library.Manage | Needed to upload custom ps1 script for retrieving AV related evidences |
 
 ![06](Images/06.png)
 
@@ -130,7 +132,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
   
 ![12](Images/12.png)
 
-- Copy `azuredeploy.json` contents from the `FunctionApp` folder and save it.
+- Copy `azuredeploy.json` contents from the `FunctionApp` folder and save it (without editing it).
 
 ![13](Images/13.png)
 
@@ -138,32 +140,32 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
   
 ![13a](Images/13a.png)
 
-|       Fields       |   Description |
-|:---------------------|:--------------------
-| Subscription		| Select the appropriate Azure Subscription    | 
-| Resource Group 	| Select the appropriate Resource Group |
-| Region			| Based on Resource Group this will be uto populated |
-| Function Name		| Please provide a function name if needed to change the default value|
-| Azure Client ID   | Enter the Azure Client ID created in the App Registration Step |
-| Azure Client Secret | Enter the Azure Client Secret created in the App Registration Step |
-|Azure Tenant ID | Enter the Azure Tenant ID of the App Registration |
-| Azure Storage Connection String| Please leave this empty |
-| Azure Storage Account Key| Please leave this empty |
-| App Insights Workspace Resource ID | Go to `Log Analytics workspace` -> `Settings` -> `Properties`, Copy `Resource ID` and paste here |
-| Vmray Base URL | VMRay Base URL |
-| Vmray API Key | VMRay API Key |
+|       Fields       | Description                                                                                        |
+|:---------------------|:---------------------------------------------------------------------------------------------------
+| Subscription		| Select the appropriate Azure Subscription                                                          | 
+| Resource Group 	| Select the appropriate Resource Group                                                              |
+| Region			| Based on Resource Group this will be auto populated                                                |
+| Function Name		| Please provide a function name if needed to change the default value                               |
+| Azure Client ID   | Enter the Azure Client ID created in the App Registration Step                                     |
+| Azure Client Secret | Enter the Azure Client Secret created in the App Registration Step                                 |
+|Azure Tenant ID | Enter the Azure Tenant ID of the App Registration                                                  |
+| Azure Storage Connection String| Please leave this empty                                                                            |
+| Azure Storage Account Key| Please leave this empty                                                                            |
+| App Insights Workspace Resource ID | Go to `Log Analytics workspace` -> `Settings` -> `Properties`, Copy `Resource ID` and paste here   |
+| Vmray Base URL | VMRay Base URL                                                                                     |
+| Vmray API Key | VMRay API Key                                                                                      |
 | Vmray Resubmit | If true, the files will be resubmitted to VMRay analyser, even if the file hash was found in VMRay |
-| Vmray API Retry Timeout | Provide maximum time to wait in minutes, when VMRay API is not responding |
-| Vmray API Max Retry | Provide number of retries, when VMRay API is not responding |
-| Vmray Analysis Job Timeout | Provide maximum time to wait in minutes, when VMRay Job submissions is not responding |
-| Defender API Retry Timeout | Provide maximum time to wait in minutes, when Microsoft Defender API is not responding. |
-| Defender API Max Retry | Provide number of retries, when Microsoft Defender API is not responding |
-| Machine Availability Timeout | Provide maximum time to wait in minutes, when the machine is not responding |
-| Machine Availability Retry | Provide number of retries, when machine is not responding |
-| Create Indicators In Defender | If true, Indicators will be created in Microsoft Defender |
-| Vmray Sample Verdict | Based on the selection, Indicators will be created in Microsoft Defender |
-| Defender Indicator Action | The action that is taken if the indicator is discovered in the organization |
-| Defender Indicator Alert | True if alert generation is required, False if this indicator shouldn't generate an alert|
+| Vmray API Retry Timeout | Provide maximum time to wait in minutes, when VMRay API is not responding                          |
+| Vmray API Max Retry | Provide number of retries, when VMRay API is not responding                                        |
+| Vmray Analysis Job Timeout | Provide maximum time to wait in minutes, when VMRay Job submissions is not responding              |
+| Defender API Retry Timeout | Provide maximum time to wait in minutes, when Microsoft Defender API is not responding.            |
+| Defender API Max Retry | Provide number of retries, when Microsoft Defender API is not responding                           |
+| Machine Availability Timeout | Provide maximum time to wait in minutes, when the machine is not responding                        |
+| Machine Availability Retry | Provide number of retries, when machine is not responding                                          |
+| Create Indicators In Defender | If true, Indicators will be created in Microsoft Defender                                          |
+| Vmray Sample Verdict | Based on the selection, Indicators will be created in Microsoft Defender                           |
+| Defender Indicator Action | The action that is taken if the indicator is discovered in the organization                        |
+| Defender Indicator Alert | True if alert generation is required, False if this indicator shouldn't generate an alert          |
 	
 - Once you provide the above values, please click on `Review + create` button.
 
@@ -323,6 +325,8 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ## Disable Microsoft Defender for VMRay Storage Account
 
+- Defender for storage will remove any malware uploaded to a Blob storage. If you are using Microsoft Defender for Storage you need to exclude the VMRay storage.
+
 - Open [https://portal.azure.com/](https://portal.azure.com) and search `Storage accounts` service.
 
 ![14](Images/14.png)
@@ -333,7 +337,8 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 ![defender_disable](Images/defender_disable.png)
 
 ## Expected Issues With LogicApps
-- Logic App `SubmitDefenderAlertsToVMRay` runs will fail. This is a expected behaviour.
+- Logic App `SubmitDefenderAlertsToVMRay` runs will fail after 2 minutes. This is a expected behaviour and is not an issue.
+
 ![32](Images/32.png)
 
     
@@ -382,7 +387,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ![15a](Images/15a.png)
 
-- Upload the downloaded zip package to the container. 
+- Upload the downloaded zip package to the container and makes sure the name is not modified. 
 
 - Check on `Overwrite if files already exist`, click on `Upload`.
 
@@ -411,4 +416,4 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 
 ### Submit-Defender-Alerts-To-VMRay Logic App Installation
 
-- Please re-dploy the Logic App, following the instructions given in the document.- Please re-dploy the Logic App, following the instructions given in the document.- Please re-dploy the Logic App, following the instructions given in the document.[Submit-Defender-Alerts-To-VMRay Logic App Installation](#submit-defender-alerts-to-vmray-logic-app-installation)
+- Please re-dploy the Logic App, following the instructions given in the document.[Submit-Defender-Alerts-To-VMRay Logic App Installation](#submit-defender-alerts-to-vmray-logic-app-installation)
