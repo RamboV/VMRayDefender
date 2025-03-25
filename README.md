@@ -233,6 +233,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 ![22](Images/22.png)
 
 - Once the deployment is complete, go to newly deployed logic app, click on edit. The logic app will open in a designer mode.
+
 - Click on the `WDATP Trigger`, click on `Add new`.
 
 ![23](Images/23.png)
@@ -242,9 +243,30 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 ![24](Images/24.png)
 ![25](Images/25.png)
 
-- Click on `Alerts - Get single Alert` action, click on `Cheange connection` and select the connection created above.
+- Click on `Alerts - Get single Alert` action, click on `Change connection` and select the connection created above.
 
 ![24a](Images/24a.png)
+
+#### Filtering the Defender alerts
+
+- If you would like to filter the Defender alerts based on alert severity or alert status, click on `Parameters`, and set the `DefenderAlertSeverity` and `DefenderAlertStatus` property values accordigly, by default both the values are set to `ALL`.
+
+- Allowed values for `DefenderAlertSeverity` parameter are listed below, kindly note all values are case-senitive
+	* High
+	* Medium
+	* Low
+	* Informational
+	* UnSpecified
+	* ALL
+	
+- Allowed values for `DefenderAlertStatus` parameter are listed below, kindly note all values are case-senitive
+	* New
+	* InProgress
+	* Resolved
+	* Unknown
+	* ALL	
+
+![logicapp01](Images/logicapp01.png)
 
 - Save the Logic App.
 
@@ -336,7 +358,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 |       Version       |   Release Date | Release Notes
 |:---------------------|:--------------------|:---------------- |
 | 1.0.0-beta.1		|  `07-02-2025`  | Initial Release |
-| 1.0.0-beta.2 	| `25-03-2025` | Bug Fixes |
+| 1.0.0-beta.2 	| `25-03-2025` | <ul><li>Added the ability to filter the Defender Alerts by alert severity and alert status</li><li>Removed the dependency of Azure SaS Token from function app configuration</li><li>Bug Fixes</li></ul> |
 
 ## Steps to Update from 1.0.0-beta.1 to 1.0.0-beta.2 Version 
 
@@ -386,3 +408,7 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
 - Go to `Overview` -> click on `Restart`.
 
 ![21](Images/21.png)
+
+### Submit-Defender-Alerts-To-VMRay Logic App Installation
+
+- Please re-dploy the Logic App, following the instructions given in the document.[Submit-Defender-Alerts-To-VMRay Logic App Installation](Submit-Defender-Alerts-To-VMRay Logic App Installation)
