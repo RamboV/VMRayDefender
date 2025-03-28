@@ -253,7 +253,7 @@ Note: This solution cannot analyze files removed by Defender. It can only analyz
 	* UnSpecified
 	* ALL
 	
-- For eaxample, if you want to filter the alert by "Medium" and "High" severity, you need to set the value as ["Medium","High"].
+- For example, if you want to filter the alert by "Medium" and "High" severity, you need to set the value as ["Medium","High"].
 	
 - Allowed values for `DefenderAlertStatus` parameter are listed below, kindly note all values are case-senitive
 	* New
@@ -262,7 +262,7 @@ Note: This solution cannot analyze files removed by Defender. It can only analyz
 	* Unknown
 	* ALL	
 
-- - For eaxample, if you want to filter the alert by "New", you need to set the value as ["New"].
+- - For example, if you want to filter the alert by "New", you need to set the value as ["New"].
 
 ![logicapp01](Images/logicapp01.png)
 
