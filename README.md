@@ -20,8 +20,6 @@ It also retrieves IOC values from VMRay and submits them into Microsoft Defender
   7. Azure function app `VMRayDefender` will wait till the submission is completed and When the VMRay analysis is done VMRay results are sent back to the Azure function app `VMRayDefender`.
   8. The Azure function app `VMRayDefender` post the results as a note within the relevant defender alert.
   9. If configured to send IOCs, the Azure function app `VMRayDefender` provides the IOCs as the indicators to Microsoft Defender that may use them for automatically alerting or blocking.
-  10. Once the Azure function app `VMRayDefender` completes its process, it generates a JSON file named after the Defender Alert ID and uploads it to the Azure Storage Container: vmray-defender-functionapp-status. This JSON file contains all the details of the process.
-  11. The Azure Logic App `SendEmailNotification` monitors the vmray-defender-functionapp-status container for new files. When a new file is detected, it sends an email notification to the configured recipient in logic app.
   
 Note: This solution cannot analyze files removed by Defender. It can only analyze files that Defender AV has moved to quarantine or flagged by Defender EDR
 
@@ -316,26 +314,12 @@ Note: This solution cannot analyze files removed by Defender. It can only analyz
 | 1.0.0-beta.1   | `07-02-2025` | Initial Release |
 
 
-## Steps to Update from 1.0.0-beta.2 to 1.0.0 Official release
+## Steps to Update from 1.0.0-beta.2 to 1.0.0
 
-### Deployment of Function App Zip package
+### Deploy Function App
+- Please re-dploy the Function App, following the instructions given in the document.[Deployment of Function App](#deployment-of-function-app)
 
-- Download the zip package from the `FunctionApp` folder.
-- Open [https://portal.azure.com/](https://portal.azure.com) and search `Storage accounts` service.
-
-![14](Images/14.png)
-
-- Open the storage account, the name starts with `vmraystorage`.
-- Go to `Storage Browser` -> `Blob Containers`, click on container, the name starts with `vmraycontainer`.
-- Click on `Switch to Access key`.
-
-![15a](Images/15a.png)
-
-- Upload the downloaded zip package to the container and make sure the name is not modified. 
-
-- Check on `Overwrite if files already exist`, click on `Upload`.
-
-### Submit-Defender-Alerts-To-VMRay Logic App Installation
+### Deploy Logic App
 
 - Please re-dploy the Logic App, following the instructions given in the document.[Submit-Defender-Alerts-To-VMRay Logic App Installation](#submit-defender-alerts-to-vmray-logic-app-installation)
 
